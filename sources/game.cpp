@@ -27,11 +27,7 @@ Game::Game(Player &player1, Player &player2)
     {
         throw string("One of the players is in a game! wait untill he ends.");
     }
-    if (&player1 == &player2)
-    {
-        cout << "Can't make a game with the same player!" << endl;
-        exit(1);
-    }
+
     else
     {
         this->pl1 = player1;
@@ -58,6 +54,10 @@ void Game::playAll()
 }
 void Game::playTurn()
 {
+    if (&pl1 == &pl2)
+    {
+        throw runtime_error("Can't make a game with the same player!");
+    }
     string turn = "";
     vector<Card> p1war;
     vector<Card> p2war;
