@@ -7,7 +7,6 @@ using namespace ariel;
 using namespace std;
 /**
  * @brief Create a and shuffle deck object
- *
  * @param deck
  * @param size
  */
