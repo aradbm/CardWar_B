@@ -7,15 +7,15 @@ namespace ariel
 {
     class Game
     {
-        Player p1;
-        Player p2;
+        Player &pl1;
+        Player &pl2;
         vector<string> game_log;
         int p1_turns_won;
         int num_of_turns;
+        int num_of_draws;
 
     public:
-        Game(Player player1, Player player2);
-        ~Game();
+        Game(Player &player1, Player &player2);
         void playTurn();
         void printLastTurn();
         void playAll();

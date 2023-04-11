@@ -14,18 +14,13 @@ namespace ariel
         bool isPlaying;
 
     public:
-        Player(string name = "");
-        Player(const Player &other);
-        Player &operator=(const Player &other);
-        ~Player();
-        // getters + setters
+        Player(string name);
         string getName();
         int stacksize();
         int cardesTaken();
         void setCardsTaken(int num);
         bool getIsPlaying();
         void setPlaying(bool bool1);
-        // help functions
         void addCard(Card card_to_add);
         Card pullCard();
     };

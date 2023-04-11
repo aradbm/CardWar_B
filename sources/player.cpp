@@ -3,29 +3,10 @@
 #include <vector>
 using namespace std;
 using namespace ariel;
-Player::Player(string name) : name(name), cardsTaken(0), isPlaying(false)
+Player::Player(string name) : name(std::move(name))
 {
-}
-Player::Player(const Player &other)
-    : name(other.name), player_stack(other.player_stack),
-      cardsTaken(other.cardsTaken), isPlaying(other.isPlaying)
-{
-}
-
-Player &Player::operator=(const Player &other)
-{
-    if (this != &other)
-    {
-        name = other.name;
-        player_stack = other.player_stack;
-        cardsTaken = other.cardsTaken;
-        isPlaying = other.isPlaying;
-    }
-    return *this;
-}
-Player::~Player()
-{
-    player_stack.clear();
+    cardsTaken = 0;
+    isPlaying = false;
 }
 int Player::cardesTaken()
 {
