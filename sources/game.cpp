@@ -5,7 +5,12 @@
 #include <random>
 using namespace ariel;
 using namespace std;
-
+/**
+ * @brief Create a and shuffle deck object
+ *
+ * @param deck
+ * @param size
+ */
 void create_and_shuffle_deck(Card deck[], int size)
 {
     for (size_t i = 0; i < 52; i++)
@@ -16,7 +21,12 @@ void create_and_shuffle_deck(Card deck[], int size)
     std::mt19937 g(rd());
     std::shuffle(deck, deck + size, g);
 }
-
+/**
+ * @brief Construct a new Game:: Game object
+ *
+ * @param player1
+ * @param player2
+ */
 Game::Game(Player &player1, Player &player2)
     : pl1(player1), pl2(player2)
 {
@@ -34,6 +44,8 @@ Game::Game(Player &player1, Player &player2)
         this->pl2 = player2;
         pl1.setPlaying(true);
         pl2.setPlaying(true);
+        pl1.setCardsTaken(0);
+        pl2.setCardsTaken(0);
         Card deck[52];
         create_and_shuffle_deck(deck, 52);
         for (size_t i = 0; i < 52; i++) // setting the decks for the players
@@ -45,6 +57,10 @@ Game::Game(Player &player1, Player &player2)
         }
     }
 }
+/**
+ * @brief play turn untill there are no more cards in hands of both players.
+ *
+ */
 void Game::playAll()
 {
     while (pl1.stacksize() != 0)
@@ -52,6 +68,10 @@ void Game::playAll()
         playTurn();
     }
 }
+/**
+ * @brief play a turn in game.
+ *
+ */
 void Game::playTurn()
 {
     if (&pl1 == &pl2)
@@ -107,7 +127,7 @@ void Game::playTurn()
     string winnerName = "";
     if (p1c.getNum() > p2c.getNum())
     {
-        if (p2c.getNum() == 1 && p1c.getNum() != 2) // player 2 won
+        if (p2c.getNum() == 1 && p1c.getNum() != 2) // player 2 won this turn
             winnerName = pl2.getName();
         else
         {
@@ -117,7 +137,7 @@ void Game::playTurn()
     }
     else
     {
-        if (p1c.getNum() == 1 && p2c.getNum() != 2) // player 1 won
+        if (p1c.getNum() == 1 && p2c.getNum() != 2) // player 1 won this turn
         {
             p1_turns_won++;
             winnerName = pl1.getName();
@@ -138,6 +158,10 @@ void Game::playTurn()
 
     game_log.push_back(turn + "\n");
 }
+/**
+ * @brief printing the last turn in the game. print if can't.
+ *
+ */
 void Game::printLastTurn()
 {
     if (!game_log.empty())
@@ -145,6 +169,10 @@ void Game::printLastTurn()
     else
         cout << "A turn hasn't been made yet!" << endl;
 }
+/**
+ * @brief print who is the winner. Doesn't print if game not over yet.
+ *
+ */
 void Game::printWiner()
 {
     int p1_cards = this->pl1.cardesTaken();
@@ -165,6 +193,10 @@ void Game::printWiner()
         pl2.setPlaying(false);
     }
 }
+/**
+ * @brief print all the game log untill now.
+ *
+ */
 void Game::printLog()
 {
     for (auto i : game_log)
@@ -172,10 +204,13 @@ void Game::printLog()
         cout << i;
     }
 }
+/**
+ * @brief printing for each player prints basic statistics: win rate, cards won.
+ * Also print the draw rate and amount of draws that happand. (draw within a draw counts as 2 draws. )
+ *
+ */
 void Game::printStats()
 {
-    // for each player prints basic statistics: win rate, cards won. Also print the draw rate and amount of draws that happand. (draw within a draw counts as 2 draws. )
-
     cout << pl1.getName() << " has a win rate of: " << (double)(p1_turns_won) / (double)num_of_turns << ", and won " << pl1.cardesTaken() << " cards" << endl;
     cout << pl2.getName() << " has a win rate of: " << 1 - (double)p1_turns_won / (double)(num_of_turns) << ", and won " << pl2.cardesTaken() << " cards" << endl;
     cout << "Number of draws:  " << num_of_draws << ", draw rate:" << (double)num_of_draws / (double)num_of_turns << endl;
